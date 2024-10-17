@@ -1,23 +1,23 @@
 <div align="center">
-  <img alt="HG_LOGO" src="docs/logo-dark.svg" height="64" />
+  <!-- <img alt="HG_LOGO" src="docs/logo-dark.svg" height="64" /> -->
 </div>
 
 <br>
 <p align="center">
-Another Porfolio
+Yash Dhameliya Porfolio
 </p>
 <p align="center">
-crafted with <span style="color: #8b0000;">&hearts;</span> by <a href="https://harshgoel.me">Harsh Goel</a>.
+crafted with <span style="color: #8b0000;">&hearts;</span> by <a href="https://yashdhameliya.me">Yash Dhameliya</a>.
 </p>
 <p align="center">
     <img src="https://img.shields.io/badge/version-1.0.0-yellowgreen" alt="version 1.0.0"/>
     <img src="https://img.shields.io/badge/license-MIT-brightgreen" alt="license MIT"/>
-    <img src="https://img.shields.io/github/issues-pr-raw/harshgoel05/another-portfolio.svg" />
-    <img src="https://img.shields.io/github/issues-raw/harshgoel05/another-portfolio.svg"/>
-    <img src="https://img.shields.io/badge/author-Harsh%20Goel-orange" alt="author Harsh Goel"/>
+    <img src="https://img.shields.io/github/issues-pr-raw/yashdhameliya88/yash-dhameliya-portfolio.svg" />
+    <img src="https://img.shields.io/github/issues-raw/yashdhameliya88/yash-dhameliya-portfolio.svg"/>
+    <img src="https://img.shields.io/badge/author-Yash%20Dhameliya-orange" alt="Yash Dhameliya"/>
 </p>
 
-> Harsh's Developer Portfolio built on NextJS!
+> Yash's Developer Portfolio built on NextJS!
 
 ## Built With
 
@@ -71,7 +71,7 @@ $ yarn format
 
 ## Contributing 🤝
 
-1. Find an issue to work on from [here](https://github.com/harshgoel05/another-portfolio/issues)
+1. Find an issue to work on from [here](https://github.com/harshgoel05/yash-dhameliya-portfolio/issues)
 2. Ask the owner/maintainer for permission to work on the issue.
 3. Fork this repository. [For help, click here](https://docs.github.com/en/get-started/quickstart/fork-a-repo)
 4. Clone the forked repository in your local machine [For help, click here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
