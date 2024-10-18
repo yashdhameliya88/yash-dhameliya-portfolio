@@ -1,39 +1,66 @@
+import React, { useState, useEffect } from 'react';
+import colors from '../src/content/index/_colors.json';
+import TitleIndex from './title.index';
+
+// Import your components with dynamic import
 import dynamic from 'next/dynamic';
-import { getPersonalDetails, getProjectDetails } from '@utils/apiService';
-import { PersonalDetailsContext, ProjectDetailsContext } from '@utils/contexts';
-import { PersonalDetails, Project } from '@utils/types';
-import { Footer, Loader, Navbar, SocialBar } from '@shared-components';
+const LoadingAnim = dynamic(() => import("../src/components/intro/loadinganim"), { ssr: false
+})
+import TimeLine from "../src/components/sections/index/timeline";
+const Hero = dynamic(() => import('../src/components/sections/index/hero'));
+const Looking = dynamic(() => import('../src/components/sections/index/looking'));
+const About = dynamic(() => import('../src/components/sections/index/home'));
+const Technical = dynamic(() => import('../src/components/sections/index/technical'));
+const Career = dynamic(() => import('../src/components/sections/index/optional/career'));
+const FeaturedProjects = dynamic(() => import('../src/components/sections/projects/featured'));
+const QnA = dynamic(() => import('../src/components/sections/index/qna'));
+const Color = dynamic(() => import('../src/components/utils/page.colors'));
+import settings from '../src/content/_settings.json';
+import GithubGraphSection from "../src/components/sections/index/github.graph";
 
-const HomePage = dynamic(() => import('../components/home/index'), {
-  ssr: false,
-  loading: () => <Loader />
-});
+interface HomePageProps {
+	spacing: string[];
+}
 
-type Props = {
-  personalDetails: PersonalDetails;
-  projectDetails: Project[];
-};
-const Home = ({ personalDetails, projectDetails }: Props): JSX.Element => {
-  return (
-    <>
-      <PersonalDetailsContext.Provider value={personalDetails}>
-        <ProjectDetailsContext.Provider value={projectDetails}>
-          <Navbar />
-          <SocialBar />
-          <HomePage />
-          <Footer />
-        </ProjectDetailsContext.Provider>
-      </PersonalDetailsContext.Provider>
-    </>
-  );
-};
+export default function HomePage({ spacing }: HomePageProps) {
+	// Use a state variable to track whether components are loaded
+	const [componentsLoaded, setComponentsLoaded] = useState(false);
 
-export default Home;
+	// Simulate a loading delay
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setComponentsLoaded(true);
+		}, 2000);
 
-export async function getStaticProps(): Promise<{
-  props: { personalDetails: PersonalDetails; projectDetails: Project[] };
-}> {
-  const personalDetails = (await getPersonalDetails()) as PersonalDetails;
-  const projectDetails = (await getProjectDetails()) as Project[];
-  return { props: { personalDetails, projectDetails } };
+		return () => clearTimeout(timer);
+	}, []);
+
+	const renderContent = () => (
+		<div>
+			<Hero />
+			<Looking />
+			<About />
+			<GithubGraphSection/>
+
+			<FeaturedProjects />
+			<Technical />
+			{/*	<TimeLine/> -> Still In Development*/}
+			<Career />
+			<QnA />
+		</div>
+	);
+
+	return (
+		<div>
+			<TitleIndex />
+			<Color colors={colors} />
+
+			{/* Conditionally render components or loading message */}
+			{settings.splashscreen && !componentsLoaded ? (
+				<LoadingAnim />
+			) : (
+				renderContent()
+			)}
+		</div>
+	);
 }

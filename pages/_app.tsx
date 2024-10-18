@@ -1,152 +1,101 @@
-/* eslint-disable no-console */
-/* eslint-disable react/no-danger */
+import React, {useEffect, useState} from 'react';
+import {Router} from 'next/router';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+import {Analytics} from '@vercel/analytics/react';
+import {domAnimation, LazyMotion} from "framer-motion"
+import SetGridGap from '../src/components/utils/set.grid'
+import Layout from '../src/components/layout/layout'
+const LoadingScreen = dynamic(() => import("../src/components/intro/splash"), { ssr: false
+});
+import { SpeedInsights } from "@vercel/speed-insights/next"
+// Global CSS
+import "../node_modules/the-new-css-reset/css/reset.css"
+import "@fontsource/fira-code/400.css"
+import "@fontsource/fira-code/600.css"
+import "@fontsource/inter/400.css"
+import "@fontsource/inter/700.css"
+import "@fontsource/inter/800.css"
+import '../node_modules/devicon/devicon.min.css'
+import '../src/styles/css/variables.css'
+import '../src/styles/css/global.css'
+import "../src/styles/css/utils/splash.css";
+import "../src/styles/css/utils/chatbot.css";
+import "../src/styles/css/utils/backtotop.css";
+import dynamic from "next/dynamic";
+import "../src/styles/css/sections/404.css";
+import "../src/styles/css/utils/anim.css";
+import settings from '../src/content/_settings.json';
+const DevelopmentNotice = dynamic(() => import( "../src/components/dev/status"),
+    { ssr: false });
+const BackToTop = dynamic(() => import("../src/components/utils/backtotop"));
+const Chatbot = dynamic(() => import("../src/components/sections/index/chatbot"));
 import { AppProps } from 'next/app';
-import '../styles/global.css';
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import Loader from '../shared/components/loader';
-import CookieAlert from '../shared/components/cookie-alert';
 
-function MyApp({ Component, pageProps, router }: AppProps): JSX.Element {
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setLoading(false);
-  });
-  const spring = {
-    type: 'spring',
-    damping: 20,
-    stiffness: 100,
-    when: 'afterChildren'
-  };
-  const disableConsole = () => {
-    console.log(
-      '%c This place is where I was supposed to post job openings, but currently I need one :P , :)',
-      'background: #212121; color: #f69510; padding: 6px; '
-    );
-    console.log(`
-    _   _                _        ____            _ 
-                                                                                    
-    _   _                        _     
-    | | | |   __ _   _ __   ___  | |__  
-    | |_| |  / _\` | | '__| / __| | '_ \\ 
-    |  _  | | (_| | | |    \\__ \\ | | | |
-    |_| |_|  \\__,_| |_|    |___/ |_| |_|
-    
-    _   ___         _       ____     ___     ___   _ 
-                                                                                             
-                                                             `);
+// NProgress configuration
 
-    console.log(
-      "%c Let's talk, head to contact page and schedule a call with me!",
-      'background: #212121; color: #f69510; padding: 6px;'
-    );
+NProgress.configure({showSpinner: false});
+// NProgress start on route change
 
-    console.log = () => {};
-    console.error = () => {};
-  };
+Router.events.on('routeChangeStart', () => {
+    NProgress.start();
+});
+// NProgress stop on route change
 
-  return (
-    <div>
-      <Head>
-        <title>Harsh Goel | Software Developer</title>
-        <meta name="title" content="Harsh Goel | Software Developer" />
-        <meta
-          name="description"
-          content="Harsh is a full stack developer who crafts beautiful web-apps, chrome extensions and apps."
-        />
-        <meta
-          name="keywords"
-          content="Harsh is a full stack developer who crafts beautiful web-apps, chrome extensions and apps."
-        />
-        <meta name="robots" content="index, follow" />
-        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="language" content="English" />
-        <meta name="revisit-after" content="10 days" />
-        <meta name="author" content="Harsh Goel" />
-        <meta name="copyright" content="All rights reserved,2021. Harsh Goel" />
-        <meta httpEquiv="content-language" content="en" />
+Router.events.on('routeChangeComplete', () => {
+    NProgress.done();
+});
+// NProgress stop on route change error
 
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://harshgoel.me/" />
-        <meta property="og:title" content="Harsh Goel | Software Developer" />
-        <meta
-          property="og:description"
-          content="Harsh is a full stack developer who crafts beautiful web-apps, chrome extensions and apps."
-        />
-        <meta
-          property="og:image"
-          content="https://billboard.srmkzilla.net/api/blog?title=Harsh%20Goel&subtitle=Software%20Developer&fileType=jpeg&theme=dark&fontSize=180px"
-        />
+Router.events.on('routeChangeError', () => {
+    NProgress.done();
+});
 
-        {/* Twitter */}
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://harshgoel.me/" />
-        <meta property="twitter:site" content="@harshgoel05" />
-        <meta property="twitter:title" content="Harsh Goel | Software Developer" />
-        <meta
-          property="twitter:description"
-          content="Harsh is a full stack developer who crafts beautiful web-apps, chrome extensions and apps."
-        />
-        {/* Use Billboard to get an OG Image */}
-        <meta
-          property="twitter:image"
-          content="https://billboard.srmkzilla.net/api/blog?title=Harsh%20Goel&subtitle=Software%20Developer&fileType=jpeg&theme=dark&fontSize=180px"
-        />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-        <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#ffffff" />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-2595CLJE11" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `       
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-            
-              gtag('config', 'G-2595CLJE11');`
-          }}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(h,o,t,j,a,r){
-              h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-              h._hjSettings={hjid:2472275,hjsv:6};
-              a=o.getElementsByTagName('head')[0];
-              r=o.createElement('script');r.async=1;
-              r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-              a.appendChild(r);
-          })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`
-          }}
-        />
-      </Head>
-      {loading ? (
-        <Loader />
-      ) : (
-        <AnimatePresence>
-          <div className="page-transition-wrapper overflow-x-hidden min-h-screen">
-            <motion.div
-              transition={spring}
-              key={router.pathname}
-              initial={{ x: 300, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -300, opacity: 0 }}
-              id="page-transition-container">
-              <Component {...pageProps} key={router.pathname} />
-            </motion.div>
-          </div>
-          <CookieAlert />
-        </AnimatePresence>
-      )}
-      {disableConsole()}
-    </div>
-  );
+interface MyAppProps extends AppProps{
+    Component: React.FC;
+    pageProps: any;
 }
+
+const MyApp: React.FC<MyAppProps> = ({ Component, pageProps }) => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        // Check if splashscreen is enabled in settings
+        const shouldShowSplashscreen = settings.splashscreen;
+
+        // If splashscreen is enabled, set a timeout to hide it after a certain duration
+        if (shouldShowSplashscreen) {
+            const timer = setTimeout(() => {
+                setIsLoading(false);
+            }, 4000);
+
+            return () => clearTimeout(timer);
+        } else {
+            // If splashscreen is disabled, hide it immediately
+            setIsLoading(false);
+        }
+    }, []);
+
+    return (
+        <>
+            {isLoading ? (
+                <LoadingScreen />
+            ) : (
+                <LazyMotion features={domAnimation}>
+                    <Layout>
+                        <Component {...pageProps} />
+                        <DevelopmentNotice />
+                        <Chatbot />
+                        <SpeedInsights/>
+                        <Analytics />
+                        <SetGridGap />
+                    </Layout>
+                    <BackToTop />
+                </LazyMotion>
+            )}
+        </>
+    );
+};
 
 export default MyApp;

@@ -1,17 +1,14 @@
-import { Loader } from '@shared-components';
-import dynamic from 'next/dynamic';
 
-const NotFoundPage = dynamic(() => import('../components/notfound/index'), {
-  ssr: false,
-  loading: () => <Loader />
-});
+const Custom404   = dynamic(import ( "../src/components/blocks/errors/custom404"),
+    { ssr: false });
+import Title404 from "./title.404";
+import dynamic from "next/dynamic";
 
-const NotFound = (): JSX.Element => {
-  return (
-    <>
-      <NotFoundPage />
-    </>
-  );
+export default function Notfound() {
+    return (
+        <div>
+            <Title404/>
+            <Custom404/>
+        </div>
+    );
 };
-
-export default NotFound;
